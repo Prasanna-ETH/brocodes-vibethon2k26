@@ -201,13 +201,35 @@ const ReportEmergency = () => {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
-              className="glass-strong rounded-2xl p-8 text-center max-w-sm mx-4"
+              className="glass-strong rounded-2xl p-8 text-center max-w-sm mx-4 w-full"
             >
               <div className="w-16 h-16 rounded-full bg-primary/15 flex items-center justify-center mx-auto mb-4 siren-pulse">
                 <AlertTriangle className="w-8 h-8 text-primary" />
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-2">AI is analyzing your report…</h3>
-              <p className="text-sm text-muted-foreground mb-4">Classifying severity and routing to appropriate teams.</p>
+              <h3 className="text-xl font-bold text-foreground mb-4">AI Analysis in Progress</h3>
+
+              <div className="space-y-3 mb-6">
+                {[
+                  'Extracting incident keywords...',
+                  'Verifying evidence authenticity...',
+                  'Classifying severity level...',
+                  'Identifying optimal response units...',
+                ].map((step, i) => (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: i * 0.5 }}
+                    className="flex items-center gap-2 text-xs text-left"
+                  >
+                    <div className="w-4 h-4 rounded-full border border-primary/30 flex items-center justify-center">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                    </div>
+                    <span className="text-muted-foreground">{step}</span>
+                  </motion.div>
+                ))}
+              </div>
+
               <Loader2 className="w-6 h-6 text-primary animate-spin mx-auto" />
             </motion.div>
           </motion.div>
