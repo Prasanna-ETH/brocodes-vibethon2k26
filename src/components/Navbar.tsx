@@ -2,18 +2,24 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/lib/auth-context';
 import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
-import { AlertTriangle, Sun, Moon, LogOut, Menu, X } from 'lucide-react';
+import { AlertTriangle, Sun, Moon, LogOut, Menu, X, Languages } from 'lucide-react';
 import { useState } from 'react';
+import { useLanguage } from '@/lib/language-context';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
+  };
+
+  const toggleLanguage = () => {
+    setLanguage(language === 'en' ? 'ta' : 'en');
   };
 
   return (
@@ -32,6 +38,15 @@ const Navbar = () => {
           <div className="hidden md:flex items-center gap-3">
             <Button
               variant="ghost"
+              size="sm"
+              onClick={toggleLanguage}
+              className="text-muted-foreground hover:text-foreground flex items-center gap-2"
+            >
+              <Languages className="w-4 h-4" />
+              <span className="text-xs font-medium">{language === 'en' ? 'Tamil' : 'English'}</span>
+            </Button>
+            <Button
+              variant="ghost"
               size="icon"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className="text-muted-foreground hover:text-foreground"
@@ -44,16 +59,16 @@ const Navbar = () => {
                   {user.name}
                 </span>
                 <Button variant="ghost" size="sm" onClick={handleLogout} className="text-muted-foreground hover:text-foreground">
-                  <LogOut className="w-4 h-4 mr-1" /> Logout
+                  <LogOut className="w-4 h-4 mr-1" /> {t('nav.logout')}
                 </Button>
               </>
             ) : (
               <>
                 <Link to="/auth">
-                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">Login</Button>
+                  <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">{t('nav.logout') === 'Logout' ? 'Login' : 'உள்நுழை'}</Button>
                 </Link>
                 <Link to="/report">
-                  <Button size="sm">Report Emergency</Button>
+                  <Button size="sm">{t('dash.report_emergency')}</Button>
                 </Link>
               </>
             )}

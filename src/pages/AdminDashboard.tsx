@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   AlertTriangle, Shield, Activity, CheckCircle2, Clock, Search, Bell, LogOut,
   ChevronRight, Users, BarChart3, Settings, Heart, Flame, Sun, Moon, Filter,
-  MapPin, Phone, RefreshCw, ExternalLink, TrendingUp
+  MapPin, Phone, RefreshCw, ExternalLink, TrendingUp, Languages
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +13,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Label } from '@/components/ui/label';
 import StatusStepper from '@/components/StatusStepper';
 import { EmptyState, TableSkeleton, MapSkeleton } from '@/components/UIHelpers';
 import { useAuth } from '@/lib/auth-context';
@@ -22,6 +23,7 @@ import { EmergencyReport, Service, SEVERITY_CONFIG, ReportStatus } from '@/lib/t
 import { cn } from '@/lib/utils';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '@/lib/language-context';
 
 const LiveMap = lazy(() => import('@/components/LiveMap'));
 
@@ -37,6 +39,7 @@ const LOCATION_COORDS: Record<string, { lat: number; lng: number }> = {
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const { theme, setTheme } = useTheme();
+  const { language, setLanguage, t } = useLanguage();
   const navigate = useNavigate();
   const [reports, setReports] = useState(demoReports);
   const [selectedReport, setSelectedReport] = useState<EmergencyReport | null>(null);
@@ -61,9 +64,9 @@ const AdminDashboard = () => {
   const criticalReports = reports.filter(r => r.severity === 'critical' && r.status !== 'resolved');
 
   const stats = [
-    { label: 'Active emergencies', value: activeReportsCount, icon: AlertTriangle, color: 'text-primary', bg: 'bg-primary/10', trend: '+2', trendUp: true },
+    { label: t('dash.active_reports'), value: activeReportsCount, icon: AlertTriangle, color: 'text-primary', bg: 'bg-primary/10', trend: '+2', trendUp: true },
     { label: 'Critical Cases', value: criticalReports.length, icon: Activity, color: 'text-severity-critical', bg: 'bg-severity-critical/10', trend: criticalReports.length > 0 ? 'Needs attention' : 'None', trendUp: false },
-    { label: 'Resolved Today', value: reports.filter(r => r.status === 'resolved').length, icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', trend: '+5', trendUp: true },
+    { label: t('dash.resolved'), value: reports.filter(r => r.status === 'resolved').length, icon: CheckCircle2, color: 'text-success', bg: 'bg-success/10', trend: '+5', trendUp: true },
     { label: 'Avg Response', value: '8 min', icon: Clock, color: 'text-accent', bg: 'bg-accent/10', trend: '-2 min', trendUp: true },
   ];
 
@@ -84,8 +87,8 @@ const AdminDashboard = () => {
   const handleLogout = () => { logout(); navigate('/'); };
 
   const navItems = [
-    { icon: BarChart3, label: 'Dashboard', key: 'dashboard' },
-    { icon: AlertTriangle, label: 'Active Reports', key: 'active', badge: activeReportsCount },
+    { icon: BarChart3, label: t('nav.dashboard'), key: 'dashboard' },
+    { icon: AlertTriangle, label: t('dash.active_reports'), key: 'active', badge: activeReportsCount },
     { icon: Users, label: 'Teams', key: 'teams' },
     { icon: Settings, label: 'Settings', key: 'settings' },
   ];
@@ -127,7 +130,7 @@ const AdminDashboard = () => {
 
         <div className="p-3 border-t border-border space-y-2">
           <Button variant="ghost" className="w-full justify-start text-muted-foreground text-sm" onClick={handleLogout}>
-            <LogOut className="w-4 h-4 mr-2" /> Sign Out
+            <LogOut className="w-4 h-4 mr-2" /> {t('nav.logout')}
           </Button>
         </div>
       </aside>
@@ -151,6 +154,15 @@ const AdminDashboard = () => {
             </Button>
           </div>
           <div className="flex items-center gap-1 sm:gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => setLanguage(language === 'en' ? 'ta' : 'en')}
+              className="text-muted-foreground hover:text-foreground flex items-center gap-2 px-2"
+            >
+              <Languages className="w-4 h-4" />
+              <span className="text-[10px] font-bold uppercase">{language}</span>
+            </Button>
             <Button variant="ghost" size="icon" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
               {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </Button>

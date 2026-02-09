@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/lib/auth-context';
 import { toast } from 'sonner';
+import { useLanguage } from '@/lib/language-context';
 
 type Role = 'citizen' | 'admin';
 type Mode = 'login' | 'signup';
@@ -19,6 +20,7 @@ const Auth = () => {
   const [name, setName] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const { login, signup } = useAuth();
+  const { t } = useLanguage();
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,7 +52,7 @@ const Auth = () => {
             <AlertTriangle className="w-10 h-10 text-primary" />
           </div>
           <h1 className="text-4xl font-extrabold text-foreground mb-4">ResQ AI</h1>
-          <p className="text-lg text-muted-foreground max-w-md">Smart Emergency Reporting System powered by artificial intelligence.</p>
+          <p className="text-lg text-muted-foreground max-w-md">{t('auth.subtitle')}</p>
         </div>
       </div>
 
@@ -68,15 +70,15 @@ const Auth = () => {
           {/* Role toggle */}
           <div className="flex rounded-xl glass p-1 mb-8">
             {([
-              { key: 'citizen' as Role, icon: User, label: 'Citizen Login' },
-              { key: 'admin' as Role, icon: Shield, label: 'Responder Login' },
+              { key: 'citizen' as Role, icon: User, label: t('auth.citizen_login') },
+              { key: 'admin' as Role, icon: Shield, label: t('auth.responder_login') },
             ]).map(r => (
               <button
                 key={r.key}
                 onClick={() => { setRole(r.key); setMode('login'); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-medium transition-all ${role === r.key
-                    ? 'bg-primary text-primary-foreground shadow-lg'
-                    : 'text-muted-foreground hover:text-foreground'
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-[11px] sm:text-sm font-medium transition-all ${role === r.key
+                  ? 'bg-primary text-primary-foreground shadow-lg'
+                  : 'text-muted-foreground hover:text-foreground'
                   }`}
               >
                 <r.icon className="w-4 h-4" />
@@ -94,7 +96,7 @@ const Auth = () => {
               transition={{ duration: 0.25 }}
             >
               <h2 className="text-2xl font-bold text-foreground mb-1">
-                {role === 'admin' ? 'Secure Login' : mode === 'signup' ? 'Create Account' : 'Welcome Back'}
+                {role === 'admin' ? 'Secure Login' : mode === 'signup' ? t('auth.create_account') : t('auth.welcome_back')}
               </h2>
               <p className="text-sm text-muted-foreground mb-6">
                 {role === 'admin' ? 'Authorized responders only.' : mode === 'signup' ? 'Register to report emergencies.' : 'Sign in to your account.'}
@@ -108,15 +110,15 @@ const Auth = () => {
                   </div>
                 )}
                 <div>
-                  <Label className="text-sm text-muted-foreground">{role === 'admin' ? 'Admin Email / ID' : 'Email'}</Label>
+                  <Label className="text-sm text-muted-foreground">{role === 'admin' ? 'Admin Email / ID' : t('auth.email')}</Label>
                   <Input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="you@example.com" className="mt-1.5" />
                 </div>
                 <div>
-                  <Label className="text-sm text-muted-foreground">Password</Label>
+                  <Label className="text-sm text-muted-foreground">{t('auth.password')}</Label>
                   <div className="relative mt-1.5">
                     <Input
                       value={password}
-                      onChange={e => setPassword(e.target.value)}
+                      onChange={password => setPassword(password.target.value)}
                       type={showPassword ? 'text' : 'password'}
                       placeholder="••••••••"
                     />
@@ -131,7 +133,7 @@ const Auth = () => {
                 </div>
 
                 <Button type="submit" className="w-full py-5">
-                  {role === 'admin' ? 'Secure Login' : mode === 'signup' ? 'Create Account' : 'Login'}
+                  {role === 'admin' ? 'Secure Login' : mode === 'signup' ? t('auth.create_account') : t('auth.login')}
                 </Button>
 
                 {/* Demo Logins */}
@@ -139,26 +141,26 @@ const Auth = () => {
                   <Button
                     type="button"
                     variant="secondary"
-                    className="text-xs h-10 gap-1.5"
+                    className="text-[10px] sm:text-xs h-10 gap-1 sm:gap-1.5 px-1 sm:px-2"
                     onClick={() => {
                       login('citizen@demo.com', 'password', 'citizen');
                       toast.success('Logged in as Citizen');
                       navigate('/home');
                     }}
                   >
-                    <User className="w-3.5 h-3.5" /> Demo Citizen
+                    <User className="w-3.5 h-3.5" /> {t('auth.demo.citizen')}
                   </Button>
                   <Button
                     type="button"
                     variant="secondary"
-                    className="text-xs h-10 gap-1.5"
+                    className="text-[10px] sm:text-xs h-10 gap-1 sm:gap-1.5 px-1 sm:px-2"
                     onClick={() => {
                       login('admin@resq.ai', 'password', 'admin');
                       toast.success('Logged in as Admin');
                       navigate('/admin');
                     }}
                   >
-                    <Shield className="w-3.5 h-3.5" /> Demo Admin
+                    <Shield className="w-3.5 h-3.5" /> {t('auth.demo.admin')}
                   </Button>
                 </div>
 

@@ -1,19 +1,21 @@
 import { Link, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Clock, Plus, Bell, Settings, ChevronRight, Search, Filter, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, Clock, Plus, Bell, Settings, ChevronRight, Search, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Navbar from '@/components/Navbar';
 import EmergencyCard from '@/components/EmergencyCard';
-import { EmptyState, CardSkeleton } from '@/components/UIHelpers';
+import { EmptyState } from '@/components/UIHelpers';
 import { useAuth } from '@/lib/auth-context';
 import { demoReports } from '@/lib/demo-data';
+import { useLanguage } from '@/lib/language-context';
 
 const CitizenDashboard = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('all');
 
@@ -38,9 +40,9 @@ const CitizenDashboard = () => {
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-3xl font-bold text-foreground mb-1">
-              Hello, {user.name} 👋
+              {t('dash.welcome')}, {user.name} 👋
             </h1>
-            <p className="text-muted-foreground">Report emergencies and track their resolution in real-time.</p>
+            <p className="text-muted-foreground">{t('dash.report_desc')}</p>
           </div>
           <div className="flex gap-2">
             <Button variant="ghost" size="icon" className="relative">
@@ -56,10 +58,10 @@ const CitizenDashboard = () => {
         {/* Quick stats */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }} className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
           {[
-            { label: 'Active Reports', value: activeCount, color: 'text-primary' },
-            { label: 'Resolved', value: resolvedCount, color: 'text-success' },
-            { label: 'This Month', value: demoReports.length, color: 'text-accent' },
-            { label: 'Avg Response', value: '8 min', color: 'text-muted-foreground' },
+            { label: t('dash.active_reports'), value: activeCount, color: 'text-primary' },
+            { label: t('dash.resolved'), value: resolvedCount, color: 'text-success' },
+            { label: t('dash.stats.this_month'), value: demoReports.length, color: 'text-accent' },
+            { label: t('dash.stats.avg_response'), value: '8 min', color: 'text-muted-foreground' },
           ].map((stat, i) => (
             <div key={i} className="glass rounded-xl p-4 text-center">
               <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
@@ -86,8 +88,8 @@ const CitizenDashboard = () => {
                   </div>
                   <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
-                <h3 className="font-semibold text-foreground text-lg mb-1">Report an Emergency</h3>
-                <p className="text-sm text-muted-foreground">AI will analyze and route to correct teams instantly.</p>
+                <h3 className="font-semibold text-foreground text-lg mb-1">{t('dash.report_emergency')}</h3>
+                <p className="text-sm text-muted-foreground">{t('dash.report_desc')}</p>
               </motion.div>
             </Link>
             <Link to={`/track/${demoReports[0].id}`}>
@@ -105,8 +107,8 @@ const CitizenDashboard = () => {
                   </div>
                   <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
-                <h3 className="font-semibold text-foreground text-lg mb-1">Track Previous Requests</h3>
-                <p className="text-sm text-muted-foreground">View live status and responder locations on map.</p>
+                <h3 className="font-semibold text-foreground text-lg mb-1">{t('dash.track_previous')}</h3>
+                <p className="text-sm text-muted-foreground">{t('dash.track_desc')}</p>
               </motion.div>
             </Link>
           </div>
@@ -121,7 +123,7 @@ const CitizenDashboard = () => {
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-sm font-semibold flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
-                Community Alerts
+                {t('dash.community_alerts')}
               </h3>
               <Badge variant="secondary" className="text-[10px]">Nearby</Badge>
             </div>
@@ -148,7 +150,7 @@ const CitizenDashboard = () => {
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-primary" />
-              Your Reports
+              {t('dash.your_reports')}
             </h2>
             <div className="flex items-center gap-2 w-full sm:w-auto">
               <div className="relative flex-1 sm:flex-initial">
@@ -156,7 +158,7 @@ const CitizenDashboard = () => {
                 <Input
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search reports..."
+                  placeholder={t('dash.search_placeholder')}
                   className="pl-9 w-full sm:w-48"
                 />
               </div>
@@ -166,8 +168,8 @@ const CitizenDashboard = () => {
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-4">
               <TabsTrigger value="all" className="text-xs sm:text-sm">All ({demoReports.length})</TabsTrigger>
-              <TabsTrigger value="active" className="text-xs sm:text-sm">Active ({activeCount})</TabsTrigger>
-              <TabsTrigger value="resolved" className="text-xs sm:text-sm">Resolved ({resolvedCount})</TabsTrigger>
+              <TabsTrigger value="active" className="text-xs sm:text-sm">{t('dash.active_reports') === 'Active Reports' ? 'Active' : 'செயலில்'} ({activeCount})</TabsTrigger>
+              <TabsTrigger value="resolved" className="text-xs sm:text-sm">{t('dash.resolved')} ({resolvedCount})</TabsTrigger>
             </TabsList>
 
             <TabsContent value={activeTab} className="mt-0">
@@ -187,7 +189,7 @@ const CitizenDashboard = () => {
                       <Link to="/report">
                         <Button className="gap-2">
                           <Plus className="w-4 h-4" />
-                          Report Emergency
+                          {t('dash.report_emergency')}
                         </Button>
                       </Link>
                     )

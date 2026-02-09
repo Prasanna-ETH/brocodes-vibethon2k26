@@ -14,30 +14,34 @@ import TrackingPage from "./pages/TrackingPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 
+import { LanguageProvider } from "@/lib/language-context";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false}>
-    <AuthProvider>
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Landing />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/home" element={<CitizenDashboard />} />
-              <Route path="/report" element={<ReportEmergency />} />
-              <Route path="/submitted" element={<SubmissionSuccess />} />
-              <Route path="/track/:id" element={<TrackingPage />} />
-              <Route path="/admin" element={<AdminDashboard />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </QueryClientProvider>
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/home" element={<CitizenDashboard />} />
+                <Route path="/report" element={<ReportEmergency />} />
+                <Route path="/submitted" element={<SubmissionSuccess />} />
+                <Route path="/track/:id" element={<TrackingPage />} />
+                <Route path="/admin" element={<AdminDashboard />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </BrowserRouter>
+          </TooltipProvider>
+        </QueryClientProvider>
+      </AuthProvider>
+    </LanguageProvider>
   </ThemeProvider>
 );
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { AlertTriangle, Shield, Heart, Flame, Zap, Radio, Clock, FileText, Eye, CheckCircle2, Users, Smartphone, Globe } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
+import { useLanguage } from '@/lib/language-context';
 
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -11,14 +12,16 @@ const fadeUp = (delay = 0) => ({
   transition: { duration: 0.6, delay },
 });
 
-const stats = [
-  { value: '< 30s', label: 'Average Response Time' },
-  { value: '99.9%', label: 'System Uptime' },
-  { value: '24/7', label: 'Always Available' },
-  { value: '3+', label: 'Service Departments' },
-];
-
 const Landing = () => {
+  const { t } = useLanguage();
+
+  const stats = [
+    { value: '< 30s', label: t('dash.stats.avg_response') },
+    { value: '99.9%', label: 'System Uptime' },
+    { value: '24/7', label: 'Always Available' },
+    { value: '3+', label: 'Service Departments' },
+  ];
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -30,7 +33,6 @@ const Landing = () => {
           <div className="absolute top-1/4 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-[120px]" />
           <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-accent/8 rounded-full blur-[100px]" />
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[150px]" />
-          {/* Grid pattern */}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:60px_60px]" />
         </div>
 
@@ -53,13 +55,19 @@ const Landing = () => {
 
           {/* Title */}
           <motion.h1 {...fadeUp(0.2)} className="text-4xl sm:text-5xl md:text-7xl font-extrabold tracking-tight text-foreground mb-6 leading-[1.1]">
-            Report Emergencies
-            <br />
-            <span className="text-gradient">in Seconds.</span>
+            {t('landing.title').includes('Seconds') ? (
+              <>
+                Report Emergencies
+                <br />
+                <span className="text-gradient">in Seconds.</span>
+              </>
+            ) : (
+              <span className="text-gradient">{t('landing.title')}</span>
+            )}
           </motion.h1>
 
           <motion.p {...fadeUp(0.3)} className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-            AI automatically alerts Police, Ambulance, and Fire teams with severity classification & proof verification.
+            {t('landing.subtitle')}
           </motion.p>
 
           {/* CTAs */}
@@ -67,13 +75,13 @@ const Landing = () => {
             <Link to="/report">
               <Button size="lg" className="text-base px-8 py-6 gap-2 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow">
                 <Zap className="w-5 h-5" />
-                Report Emergency
+                {t('dash.report_emergency')}
               </Button>
             </Link>
             <Link to="/track/RSQ-2024-0847">
               <Button variant="outline" size="lg" className="text-base px-8 py-6 gap-2 hover:bg-secondary/50 transition-colors">
                 <Eye className="w-5 h-5" />
-                Track Request
+                {t('landing.track_request')}
               </Button>
             </Link>
           </motion.div>
@@ -88,22 +96,6 @@ const Landing = () => {
             ))}
           </motion.div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 rounded-full border-2 border-muted-foreground/30 flex items-start justify-center p-1">
-            <motion.div
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-              className="w-1.5 h-3 rounded-full bg-muted-foreground/50"
-            />
-          </div>
-        </motion.div>
       </section>
 
       {/* How It Works */}
@@ -111,7 +103,7 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto">
           <motion.div {...fadeUp()} className="text-center mb-16">
             <span className="text-xs font-bold text-primary uppercase tracking-widest mb-2 block">Simple Process</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">How It Works</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t('landing.how_it_works')}</h2>
             <p className="text-muted-foreground max-w-lg mx-auto">Three simple steps to get emergency response dispatched.</p>
           </motion.div>
 
@@ -144,7 +136,7 @@ const Landing = () => {
         <div className="max-w-5xl mx-auto relative z-10">
           <motion.div {...fadeUp()} className="text-center mb-16">
             <span className="text-xs font-bold text-primary uppercase tracking-widest mb-2 block">Capabilities</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Powerful Features</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">{t('landing.features')}</h2>
             <p className="text-muted-foreground max-w-lg mx-auto">Built with cutting-edge AI technology for rapid emergency response.</p>
           </motion.div>
 
@@ -178,7 +170,7 @@ const Landing = () => {
                 </div>
               ))}
             </div>
-            <h3 className="text-2xl font-bold text-foreground mb-3">Trusted by Emergency Services</h3>
+            <h3 className="text-2xl font-bold text-foreground mb-3">{t('landing.trusted')}</h3>
             <p className="text-muted-foreground max-w-xl mx-auto mb-6">
               Our AI-powered platform is designed to work seamlessly with existing emergency infrastructure, providing faster response times and better outcomes.
             </p>
@@ -191,7 +183,7 @@ const Landing = () => {
               </Link>
               <Link to="/report">
                 <Button className="gap-2">
-                  Get Started
+                  {t('landing.get_started')}
                 </Button>
               </Link>
             </div>
