@@ -69,45 +69,78 @@ const CitizenDashboard = () => {
         </motion.div>
 
         {/* Action cards */}
-        <div className="grid sm:grid-cols-2 gap-4 mb-10">
-          <Link to="/report">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="glass rounded-2xl p-6 cursor-pointer hover:border-primary/40 transition-all group h-full"
-            >
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/25 group-hover:scale-110 transition-all">
-                  <Plus className="w-6 h-6 text-primary" />
+        <div className="grid lg:grid-cols-3 gap-6 mb-10">
+          <div className="lg:col-span-2 grid sm:grid-cols-2 gap-4">
+            <Link to="/report">
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="glass rounded-2xl p-6 cursor-pointer hover:border-primary/40 transition-all group h-full"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/25 group-hover:scale-110 transition-all">
+                    <Plus className="w-6 h-6 text-primary" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                 </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-              </div>
-              <h3 className="font-semibold text-foreground text-lg mb-1">Report an Emergency</h3>
-              <p className="text-sm text-muted-foreground">AI will analyze and route to correct teams instantly.</p>
-            </motion.div>
-          </Link>
-          <Link to={`/track/${demoReports[0].id}`}>
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="glass rounded-2xl p-6 cursor-pointer hover:border-accent/40 transition-all group h-full"
-            >
-              <div className="flex items-start justify-between">
-                <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-4 group-hover:bg-accent/25 group-hover:scale-110 transition-all">
-                  <Clock className="w-6 h-6 text-accent" />
+                <h3 className="font-semibold text-foreground text-lg mb-1">Report an Emergency</h3>
+                <p className="text-sm text-muted-foreground">AI will analyze and route to correct teams instantly.</p>
+              </motion.div>
+            </Link>
+            <Link to={`/track/${demoReports[0].id}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="glass rounded-2xl p-6 cursor-pointer hover:border-accent/40 transition-all group h-full"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-4 group-hover:bg-accent/25 group-hover:scale-110 transition-all">
+                    <Clock className="w-6 h-6 text-accent" />
+                  </div>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
                 </div>
-                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
-              </div>
-              <h3 className="font-semibold text-foreground text-lg mb-1">Track Previous Requests</h3>
-              <p className="text-sm text-muted-foreground">View live status and responder locations on map.</p>
-            </motion.div>
-          </Link>
+                <h3 className="font-semibold text-foreground text-lg mb-1">Track Previous Requests</h3>
+                <p className="text-sm text-muted-foreground">View live status and responder locations on map.</p>
+              </motion.div>
+            </Link>
+          </div>
+
+          {/* Live Feed */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+            className="glass rounded-2xl p-5"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-semibold flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-success animate-pulse" />
+                Community Alerts
+              </h3>
+              <Badge variant="secondary" className="text-[10px]">Nearby</Badge>
+            </div>
+            <div className="space-y-4">
+              {[
+                { time: '2m ago', label: 'Road Work', desc: 'Avoid Main St intersection.' },
+                { time: '15m ago', label: 'Utility Alert', desc: 'Power restoration on 5th Ave.' },
+                { time: '1h ago', label: 'Weather', desc: 'Heavy rain expected by 4 PM.' },
+              ].map((alert, i) => (
+                <div key={i} className="flex gap-3 text-xs">
+                  <div className="text-muted-foreground whitespace-nowrap">{alert.time}</div>
+                  <div>
+                    <div className="font-medium text-foreground">{alert.label}</div>
+                    <div className="text-muted-foreground text-[11px] leading-tight">{alert.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
         </div>
 
         {/* Reports section */}

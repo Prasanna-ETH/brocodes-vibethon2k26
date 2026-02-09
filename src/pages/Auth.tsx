@@ -74,11 +74,10 @@ const Auth = () => {
               <button
                 key={r.key}
                 onClick={() => { setRole(r.key); setMode('login'); }}
-                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-medium transition-all ${
-                  role === r.key
+                className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-lg text-sm font-medium transition-all ${role === r.key
                     ? 'bg-primary text-primary-foreground shadow-lg'
                     : 'text-muted-foreground hover:text-foreground'
-                }`}
+                  }`}
               >
                 <r.icon className="w-4 h-4" />
                 {r.label}
@@ -134,6 +133,34 @@ const Auth = () => {
                 <Button type="submit" className="w-full py-5">
                   {role === 'admin' ? 'Secure Login' : mode === 'signup' ? 'Create Account' : 'Login'}
                 </Button>
+
+                {/* Demo Logins */}
+                <div className="grid grid-cols-2 gap-3 pt-2">
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="text-xs h-10 gap-1.5"
+                    onClick={() => {
+                      login('citizen@demo.com', 'password', 'citizen');
+                      toast.success('Logged in as Citizen');
+                      navigate('/home');
+                    }}
+                  >
+                    <User className="w-3.5 h-3.5" /> Demo Citizen
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="secondary"
+                    className="text-xs h-10 gap-1.5"
+                    onClick={() => {
+                      login('admin@resq.ai', 'password', 'admin');
+                      toast.success('Logged in as Admin');
+                      navigate('/admin');
+                    }}
+                  >
+                    <Shield className="w-3.5 h-3.5" /> Demo Admin
+                  </Button>
+                </div>
 
                 {role === 'citizen' && (
                   <>

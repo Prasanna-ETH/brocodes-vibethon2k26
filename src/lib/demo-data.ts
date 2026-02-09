@@ -57,6 +57,20 @@ export const demoReports: EmergencyReport[] = [
     dispatchMessage: 'LOW: Minor traffic incident at Oak St & 5th Ave. No injuries. Traffic control requested.',
     reporterName: 'Emily Davis',
   },
+  {
+    id: 'RSQ-2024-0843',
+    description: 'Suspicious individual loitering near school entrance after hours. Wearing dark clothing and carrying a large bag.',
+    severity: 'medium',
+    services: ['police'],
+    status: 'received',
+    location: 'Lincoln Elementary, 4th Street',
+    victims: 0,
+    contact: '+1 (555) 999-8888',
+    timestamp: new Date(Date.now() - 1000 * 60 * 5).toISOString(),
+    media: [],
+    dispatchMessage: 'MEDIUM: Suspicious activity at Lincoln Elementary. Unit P12 dispatched for welfare check.',
+    reporterName: 'George Miller',
+  },
 ];
 
 export const demoPresets = [
@@ -86,5 +100,14 @@ export const demoPresets = [
     victims: 1,
     location: '8th Street Convenience Store',
     contact: '+1 (555) 999-0003',
+  },
+  {
+    name: '🏥 Medical Emergency',
+    description: 'Elderly neighbor appears to be having a stroke. Slurred speech and facial drooping. Sudden onset about 10 minutes ago.',
+    services: ['ambulance'] as const,
+    severity: 'critical' as const,
+    victims: 1,
+    location: '212 West Oak Lane',
+    contact: '+1 (555) 999-0004',
   },
 ];
