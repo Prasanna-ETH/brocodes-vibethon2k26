@@ -1,73 +1,78 @@
-# Welcome to your Lovable project
+# ResQ AI: Intelligent Emergency Response System
 
-## Project info
+ResQ AI is a state-of-the-art emergency reporting and management platform designed to bridge the gap between citizens and first responders. By leveraging artificial intelligence, ResQ AI ensures that every second counts, providing instant analysis, precise routing, and real-time tracking during critical situations.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+## 🚀 Key Features
 
-## How can I edit this code?
+### 1. AI-Driven Incident Analysis
+- **Natural Language Reporting**: Users can describe emergencies in their own words. Our AI engine extracts key details, identifies incident types, and classifies severity in real-time.
+- **Automated Severity Classification**: Instantly categorizes reports from 'Low' to 'Critical' based on the description and reported victims.
+- **Smart Service Routing**: Automatically determines the necessary response teams (Police, Ambulance, and Fire) required for the situation.
 
-There are several ways of editing your application.
+### 2. Comprehensive Dashboards
+- **Citizen Dashboard**: A centralized hub for users to report emergencies, view local community alerts, and monitor the status of their previous reports.
+- **Responder Command Center**: A high-level administrative interface for emergency services to manage active cases, update statuses, and monitor team availability.
 
-**Use Lovable**
+### 3. Real-Time Tracking & Coordination
+- **Live Responder Tracking**: Interactive map integration showing the real-time location and ETA of assigned response units.
+- **Dynamic Status Timeline**: A step-by-step visual tracker for every report, from 'Received' to 'Resolved'.
+- **Evidence Management**: Secure upload of photos and videos to provide first responders with immediate visual context.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### 4. Optimized Experience
+- **Emergency Mode**: A high-visibility, simplified UI state designed for rapid reporting under high stress.
+- **One-Click Demo Access**: Integrated shortcuts for quick evaluation of both Citizen and Admin workflows.
 
-Changes made via Lovable will be committed automatically to this repo.
+## 🛠 Technical Stack
 
-**Use your preferred IDE**
+ResQ AI is built with a modern, high-performance stack to ensure reliability and speed:
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- **Core Framework**: [React](https://reactjs.org/) (TypeScript)
+- **Build Tool**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [shadcn/ui](https://ui.shadcn.com/) (Radix UI)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **State Management**: [TanStack Query](https://tanstack.com/query/latest) (React Query)
+- **Routing**: [React Router](https://reactrouter.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Theming**: [Next Themes](https://github.com/pacocoursey/next-themes)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+## 📦 Getting Started
 
-Follow these steps:
+### Prerequisites
+- Node.js (v18.0 or higher)
+- npm or yarn
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+### Installation
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+1. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd brocodes-vibethon2k26
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+2. Install dependencies:
+   ```bash
+   npm install --legacy-peer-deps
+   ```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+The application will be available at `http://localhost:8080`.
+
+## 📂 Project Structure
+
+```text
+src/
+├── components/     # Reusable UI components (shadcn/ui + custom)
+├── hooks/          # Custom React hooks
+├── lib/            # Utilities, contextProviders, and mock data
+├── pages/          # Application views (Auth, Dashboards, Reporting, etc.)
+└── types/          # TypeScript definitions
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+*ResQ AI – Every Second Counts.*
