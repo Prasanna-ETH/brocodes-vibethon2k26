@@ -1,28 +1,71 @@
 import { Link, Navigate } from 'react-router-dom';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { AlertTriangle, Clock, Plus } from 'lucide-react';
+import { AlertTriangle, Clock, Plus, Bell, Settings, ChevronRight, Search, Filter, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Navbar from '@/components/Navbar';
 import EmergencyCard from '@/components/EmergencyCard';
+import { EmptyState, CardSkeleton } from '@/components/UIHelpers';
 import { useAuth } from '@/lib/auth-context';
 import { demoReports } from '@/lib/demo-data';
 
 const CitizenDashboard = () => {
   const { user } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeTab, setActiveTab] = useState('all');
 
   if (!user) return <Navigate to="/auth" replace />;
   if (user.role === 'admin') return <Navigate to="/admin" replace />;
 
+  const filteredReports = demoReports.filter(r => {
+    if (activeTab === 'active' && r.status === 'resolved') return false;
+    if (activeTab === 'resolved' && r.status !== 'resolved') return false;
+    if (searchQuery && !r.id.toLowerCase().includes(searchQuery.toLowerCase()) && !r.description.toLowerCase().includes(searchQuery.toLowerCase())) return false;
+    return true;
+  });
+
+  const activeCount = demoReports.filter(r => r.status !== 'resolved').length;
+  const resolvedCount = demoReports.filter(r => r.status === 'resolved').length;
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <main className="max-w-4xl mx-auto px-4 pt-24 pb-12">
-        {/* Welcome */}
-        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-1">
-            Hello, {user.name} 👋
-          </h1>
-          <p className="text-muted-foreground">Report emergencies and track their resolution in real-time.</p>
+      <main className="max-w-5xl mx-auto px-4 pt-24 pb-12">
+        {/* Welcome header */}
+        <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-3xl font-bold text-foreground mb-1">
+              Hello, {user.name} 👋
+            </h1>
+            <p className="text-muted-foreground">Report emergencies and track their resolution in real-time.</p>
+          </div>
+          <div className="flex gap-2">
+            <Button variant="ghost" size="icon" className="relative">
+              <Bell className="w-5 h-5" />
+              <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-primary" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Settings className="w-5 h-5" />
+            </Button>
+          </div>
+        </motion.div>
+
+        {/* Quick stats */}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.05 }} className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
+          {[
+            { label: 'Active Reports', value: activeCount, color: 'text-primary' },
+            { label: 'Resolved', value: resolvedCount, color: 'text-success' },
+            { label: 'This Month', value: demoReports.length, color: 'text-accent' },
+            { label: 'Avg Response', value: '8 min', color: 'text-muted-foreground' },
+          ].map((stat, i) => (
+            <div key={i} className="glass rounded-xl p-4 text-center">
+              <p className={`text-2xl font-bold ${stat.color}`}>{stat.value}</p>
+              <p className="text-xs text-muted-foreground mt-1">{stat.label}</p>
+            </div>
+          ))}
         </motion.div>
 
         {/* Action cards */}
@@ -32,13 +75,18 @@ const CitizenDashboard = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="glass rounded-2xl p-6 cursor-pointer hover:border-primary/40 transition-all group"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass rounded-2xl p-6 cursor-pointer hover:border-primary/40 transition-all group h-full"
             >
-              <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/25 transition-colors">
-                <Plus className="w-6 h-6 text-primary" />
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-xl bg-primary/15 flex items-center justify-center mb-4 group-hover:bg-primary/25 group-hover:scale-110 transition-all">
+                  <Plus className="w-6 h-6 text-primary" />
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
               </div>
               <h3 className="font-semibold text-foreground text-lg mb-1">Report an Emergency</h3>
-              <p className="text-sm text-muted-foreground">AI will analyze and route to correct teams.</p>
+              <p className="text-sm text-muted-foreground">AI will analyze and route to correct teams instantly.</p>
             </motion.div>
           </Link>
           <Link to={`/track/${demoReports[0].id}`}>
@@ -46,30 +94,75 @@ const CitizenDashboard = () => {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="glass rounded-2xl p-6 cursor-pointer hover:border-accent/40 transition-all group"
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              className="glass rounded-2xl p-6 cursor-pointer hover:border-accent/40 transition-all group h-full"
             >
-              <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-4 group-hover:bg-accent/25 transition-colors">
-                <Clock className="w-6 h-6 text-accent" />
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 rounded-xl bg-accent/15 flex items-center justify-center mb-4 group-hover:bg-accent/25 group-hover:scale-110 transition-all">
+                  <Clock className="w-6 h-6 text-accent" />
+                </div>
+                <ChevronRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
               </div>
               <h3 className="font-semibold text-foreground text-lg mb-1">Track Previous Requests</h3>
-              <p className="text-sm text-muted-foreground">View live status of your reports.</p>
+              <p className="text-sm text-muted-foreground">View live status and responder locations on map.</p>
             </motion.div>
           </Link>
         </div>
 
-        {/* Recent */}
+        {/* Reports section */}
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}>
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-4">
             <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
               <AlertTriangle className="w-5 h-5 text-primary" />
-              Recent Requests
+              Your Reports
             </h2>
+            <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="relative flex-1 sm:flex-initial">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search reports..."
+                  className="pl-9 w-full sm:w-48"
+                />
+              </div>
+            </div>
           </div>
-          <div className="space-y-3">
-            {demoReports.map((report, i) => (
-              <EmergencyCard key={report.id} report={report} index={i} />
-            ))}
-          </div>
+
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+            <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsTrigger value="all" className="text-xs sm:text-sm">All ({demoReports.length})</TabsTrigger>
+              <TabsTrigger value="active" className="text-xs sm:text-sm">Active ({activeCount})</TabsTrigger>
+              <TabsTrigger value="resolved" className="text-xs sm:text-sm">Resolved ({resolvedCount})</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value={activeTab} className="mt-0">
+              {filteredReports.length > 0 ? (
+                <div className="space-y-3">
+                  {filteredReports.map((report, i) => (
+                    <EmergencyCard key={report.id} report={report} index={i} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyState
+                  icon={<CheckCircle2 className="w-8 h-8" />}
+                  title={activeTab === 'resolved' ? 'No resolved reports' : 'No reports found'}
+                  description={searchQuery ? 'Try a different search term' : activeTab === 'active' ? 'All your emergencies have been resolved!' : 'You haven\'t submitted any emergency reports yet.'}
+                  action={
+                    !searchQuery && activeTab !== 'resolved' && (
+                      <Link to="/report">
+                        <Button className="gap-2">
+                          <Plus className="w-4 h-4" />
+                          Report Emergency
+                        </Button>
+                      </Link>
+                    )
+                  }
+                />
+              )}
+            </TabsContent>
+          </Tabs>
         </motion.div>
       </main>
     </div>
