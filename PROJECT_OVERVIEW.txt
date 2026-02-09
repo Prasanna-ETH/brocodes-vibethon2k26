@@ -1,0 +1,87 @@
+# ResQ AI: Project Overview & System Architecture
+
+## 1. Executive Summary
+ResQ AI is an intelligent emergency response ecosystem designed to eliminate human panic and decision-making delays during life-threatening crises. By integrating advanced AI analysis with real-time tracking, the platform ensures that emergency reports are accurately classified, prioritized, and routed to the correct first responders within seconds.
+
+---
+
+## 2. Problem Statement Alignment
+### The Challenge:
+In emergencies (accidents, fires, medical crises), victims often panic and struggle to decide which service to call (Police vs. Ambulance vs. Fire). Misrouting or delays can be fatal.
+
+### ResQ AI Solution:
+Our platform replaces confusion with confidence. A single "Description" input is all the user needs; the AI handles the complexity of department classification, severity detection, and instant dispatching.
+
+---
+
+## 3. Technical Stack (High-Performance & Scalable)
+ResQ AI utilizes a modern developer stack optimized for speed, reliability, and visual clarity:
+
+- **Frontend Core**: React 18 + TypeScript (Ensures a robust, type-safe development environment).
+- **Styling**: Tailwind CSS (Utility-first styling for precise UI control).
+- **UI Framework**: shadcn/ui + Radix UI (Industry-standard accessible components).
+- **Animations**: Framer Motion (Provides the "alive" feel through fluid micro-interactions).
+- **Intelligence Simulation**: Custom React Logic (Real-time keyword extraction and heuristic analysis).
+- **State Management**: TanStack Query & Context API (Efficient data synchronization).
+- **Routing**: React Router DOM (Seamless navigation between dashboards).
+
+---
+
+## 4. Application Flow: Step-by-Step
+
+### Step 1: Rapid Reporting (The Citizen)
+The user enters the portal and is immediately presented with the "Report Emergency" interface.
+- **Input**: User provides a text description and can optionally upload evidence (Images/Video).
+- **Preset Shortcuts**: Rapid-action buttons for common disasters (Fire, Crash, Theft).
+
+### Step 2: Instant AI Analysis
+As the user types, the ResQ AI engine works in the background:
+- **Keyword Extraction**: Identifies terms like "bleeding", "smoke", or "weapon".
+- **Multi-Category Classification**: Decides if the event requires Police, Ambulance, Fire, or a combined response.
+- **Severity Detection**: Ranks the incident from Low to Critical.
+- **Automated Message Generation**: Creates a structured "Dispatch Packet" with timestamps and proof links.
+
+### Step 3: Command Center Dispatch (The Admin)
+The report is instantly visible on the Responder Dashboard.
+- **Priority Filtering**: High-severity and Critical cases are pinned to the top with pulsing alerts.
+- **Team Assignment**: Admins can forward the "AI Packet" to physical units (A3, P4, etc.).
+
+### Step 4: Real-Time Tracking & Resolution
+The user is redirected to a Live Tracking page.
+- **Live Status Feed**: Progresses from "Request Received" → "Dispatched" → "On the Way" → "Resolved".
+- **Geospatial Visualization**: Live map shows both the incident site and moving responder units.
+
+---
+
+## 5. Functional Requirements Fulfillment
+- **Text/Image/Video Handling**: Complete support for multimedia submissions to give responders visual proof.
+- **Severity & Category**: Fully automated classification based on textual semantics.
+- **Timestamps**: Every generated alert is hard-coded with a sub-second precision timestamp.
+- **Status Tracking**: A visual stepper provides 100% transparency on responder progress.
+
+---
+
+## 6. What Makes ResQ AI Unique? (Innovations)
+
+### 🚀 "Emergency Mode" Logic
+The UI is designed to be "Calm in Chaos." When an emergency is detected, the UI simplifies, and AI-driven presets take over to minimize typing.
+
+### 🧠 Intelligent Intelligence Preview
+Unlike traditional "black box" systems, ResQ AI shows the user what the AI is thinking (extracted keywords, predicted services), which builds trust that help is on the correct path.
+
+### 🚨 Role-Based Command Centers
+The project isn't just a "form"—it's a two-sided marketplace. We've built a dedicated Responder UI that mimics a professional dispatcher station.
+
+### 📍 Reactive Situational Awareness
+The application doesn't just "show" help; it animates the response. Pulsing animations and live ETAs provide psychological comfort to victims in distress.
+
+### 💬 Integrated Support
+Includes AI-powered chatbot capabilities to assist users while they wait for physical units to arrive.
+
+---
+
+## 7. Strategic Impact
+ResQ AI shifts the burden of coordination from a panicked citizen to an intelligent automated system. By saving even 60 seconds in the reporting phase, ResQ AI contributes directly to saving lives.
+
+---
+*Created for the Vibeathon 2026 Emergency Care Challenge.*
